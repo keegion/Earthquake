@@ -1,0 +1,22 @@
+{
+  "name": "earthquake",
+  "version": "1.0.0",
+  "description": "earthquake app that pulls data from earthquake.usgs.gov",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keegion/Earthquake.git"
+  },
+  "author": "Mihkel Tanel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/keegion/Earthquake/issues"
+  },
+  "homepage": "https://github.com/keegion/Earthquake#readme",
+  "dependencies": {
+    "electron": "^4.0.4"
+  }
+}
