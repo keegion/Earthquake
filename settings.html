@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Settings</title>
+</head>
+
+<body>
+    <button onclick="test()">Save</button>
+
+    <script>
+        const electron = require('electron');
+        const {ipcRenderer} = electron;
+        function test() {
+            ipcRenderer.send('settingsSave', "settings closed");
+           
+        }
+    </script>
+</body>
+
+</html>
