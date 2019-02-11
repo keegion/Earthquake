@@ -54,6 +54,11 @@ function createWindow() {
     appIcon.on('double-click', () => {
         mainWindow.show()
     })
+    app.on('window-all-closed', () => {
+        if (process.platform !== 'darwin') {
+          app.quit()
+        }
+      })
     appIcon.setContextMenu(contextMenu)
 
     const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
@@ -124,3 +129,5 @@ ipcMain.on('settingsSave', function(e, msg){
     settingsWindow.close(); 
 
   });
+
+  
