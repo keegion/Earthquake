@@ -10,7 +10,7 @@ app.on('ready', createWindow)
 
 //create new MainWindow on app open 
 function createWindow() {
-    mainWindow = new BrowserWindow({ width: 800, height: 600, icon: iconpath })
+    mainWindow = new BrowserWindow({ width: 1200, height: 800, icon: iconpath })
 
 
     // and load the index.html of the app.

@@ -1,16 +1,38 @@
-<!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script type="text/javascript" src="fetchData.js"></script>
+    
+
     <title>Earthquake app</title>
   </head>
   <body>
-    <h1>Earthquake app</h1>
-    We are using node <script>document.write(process.versions.node)</script>,
-    Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
-    <button onclick="myFunction(test)">Click me</button>
+    <h1>Latest major eathquakes</h1>
+    <div >
+      <table id="EQList" class="table table-striped">
+          
+        <tr>
+          <td scope="col">
+              Magnitude
+          </td>
+          <td scope="col">
+            Location
+          </td>
+          <td scope="col">
+            Time
+          </td>
 
+        </tr>
+      </thead>
+      </table>
 
+    </div>
+
+    <script>
+
+      
+      </script>
   </body>
 </html>
