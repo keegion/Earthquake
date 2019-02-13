@@ -18,6 +18,7 @@
   "homepage": "https://github.com/keegion/Earthquake#readme",
   "dependencies": {
     "electron": "^4.0.4",
+    "electron-store": "^2.0.0",
     "jquery": "^3.3.1"
   }
 }
