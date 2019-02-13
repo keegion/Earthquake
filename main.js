@@ -3,7 +3,7 @@ const { app, BrowserWindow, Tray, Menu, ipcMain } = require('electron')
 let mainWindow;
 //app icon path
 const iconpath = ('./icon.png')
-
+let tray;
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', createWindow)
@@ -17,7 +17,7 @@ function createWindow() {
     mainWindow.loadFile('index.html')
 
 
-
+    tray = new Tray(iconpath);
     //quit app on close
     mainWindow.on('close', function () {
         app.quit();
@@ -29,10 +29,10 @@ function createWindow() {
     })
 
     mainWindow.on('show', function () {
-        appIcon.setHighlightMode('always')
+        tray.setHighlightMode('always')
     })
 
-    const appIcon = new Tray(iconpath)
+
     //app settings when minimzed
     const contextMenu = Menu.buildFromTemplate([
         {
@@ -51,7 +51,7 @@ function createWindow() {
 
     ])
     //open from tray when double clicked the icon
-    appIcon.on('double-click', () => {
+    tray.on('double-click', () => {
         mainWindow.show()
     })
     app.on('window-all-closed', () => {
@@ -59,7 +59,7 @@ function createWindow() {
           app.quit()
         }
       })
-    appIcon.setContextMenu(contextMenu)
+    tray.setContextMenu(contextMenu)
 
     const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
     // Insert menu
@@ -127,6 +127,17 @@ function createSettingsWindow() {
 ipcMain.on('settingsSave', function(e, msg){
     console.log(msg)
     settingsWindow.close(); 
+
+  });
+
+  ipcMain.on('openNotification', function(e, msg){
+
+   
+    tray.displayBalloon({
+        title: "New earthquake!",
+        content: msg,
+        icon : iconpath
+    })
 
   });
 
