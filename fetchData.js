@@ -4,6 +4,9 @@ const Store = require('electron-store');
 const store = new Store();
 const { ipcRenderer } = require('electron')
 let first = true;
+// how often the data is updated in milliseconds
+let updateFrequency = 300000;
+
 
 //Fetch data and return json
 async function getData(url) {
@@ -13,19 +16,24 @@ async function getData(url) {
 }
 //call for fetch and print data
 async function main() {
-    const data = await getData("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.geojson");
+    //const data = await getData("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.geojson");
     //const data = await getData("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson");
     //const data = await getData("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson");
-    //run forEach as many times as there is major earthquakes past 30 days and print the data of each one to table
+    const data = await getData("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson");
+    
+    //print table behinning
+    const tableBeginning = "<table class='table table-striped table-hover' id='EQList'><tr><td scope='col'>Magnitude</td><td scope='col'>Location</td><td scope='col'>Time </td></tr>"
+    $(tableInsert).append(tableBeginning);
+    //print all data inside the table
     data.features.forEach(function (item) {
-
+        const coords = item.geometry.coordinates;
         const id = item.id; 
-        let start = "<tr>";
         const magnitude = "<td>" + item.properties.mag + "</td>";
         const DateOptions = { hour: 'numeric', minute: 'numeric', seconds: 'numeric', year: 'numeric', month: 'numeric', day: 'numeric' }
         const timeFormatted = new Date(item.properties.time).toLocaleDateString("en-GB", DateOptions);
         const time = "<td>" + timeFormatted+"</td>";
         const location = "<td>" + item.properties.place + "</td>";
+        let start = "<tr onclick='test(\""+coords+"\")'>";
         const end = "</tr>";
         //check if this message is new, if it is throw a popup with earthquake data
         checkIfIdExists(id, item.properties.mag , item.properties.place, timeFormatted);
@@ -40,13 +48,16 @@ async function main() {
         //apend msg to table
         $(EQList).append(msg);
     });
-
+    //print table ending
+    const tableEnd = "</table>";
+    $(EQList).append(tableEnd);
+    //print last updated at the end of the table
     $(lastUpdate).html("Last update: "+new Date());
 }
 
 function checkIfIdExists(id,mag,loc,time) {
     if (!store.has(id) && first === false) {
-        msg = "Magnitude "+mag+" earthquake @ "+loc+" UTC "+ time;
+        msg = "Magnitude "+mag+" earthquake @ "+loc+"  "+time;
         //tray popup
         ipcRenderer.send('openNotification', msg);
         store.set(id,id);
@@ -61,8 +72,13 @@ function checkIfIdExists(id,mag,loc,time) {
 }
 main()
 function clearData(){
-    $(EQList).empty();
+    $(tableInsert).empty();
     main();
     first = false;
 }
-setInterval(function(){ clearData() }, 300000);
+
+function test(msg){
+    ipcRenderer.send('openMap', msg);
+}
+
+setInterval(function(){ clearData() }, updateFrequency);

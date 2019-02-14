@@ -1,6 +1,8 @@
 const { app, BrowserWindow, Tray, Menu, ipcMain } = require('electron')
 
 let mainWindow;
+let settingsWindow;
+let mapWindow;
 //app icon path
 const iconpath = ('./icon.png')
 let tray;
@@ -8,7 +10,7 @@ let tray;
 // initialization and is ready to create browser windows.
 app.on('ready', createWindow)
 
-//create new MainWindow on app open 
+//create new MainWindow on app open
 function createWindow() {
     mainWindow = new BrowserWindow({ width: 1200, height: 800, icon: iconpath })
 
@@ -56,9 +58,9 @@ function createWindow() {
     })
     app.on('window-all-closed', () => {
         if (process.platform !== 'darwin') {
-          app.quit()
+            app.quit()
         }
-      })
+    })
     tray.setContextMenu(contextMenu)
 
     const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
@@ -123,22 +125,51 @@ function createSettingsWindow() {
         settingsWindow = null;
     });
 };
+function createMapWindow() {
+    mapWindow = new BrowserWindow({ width: 600, height: 600, title: "map", frame: false })
+    mapWindow.loadFile('map.html')
+    // Handle garbage collection
+    mapWindow.on('close', function () {
+        mapWindow = null;
+    });
+};
+
 //Catches settingsAdd and changes the settings -> closes window
-ipcMain.on('settingsSave', function(e, msg){
+ipcMain.on('settingsSave', function (e, msg) {
     console.log(msg)
-    settingsWindow.close(); 
+    settingsWindow.close();
 
-  });
+});
+ipcMain.on('closeMap', function (e) {
 
-  ipcMain.on('openNotification', function(e, msg){
+    mapWindow.close();
 
-   
+});
+
+ipcMain.on('openMap', function (e, msg) {
+    var arrayOfStrings = msg.split(",")
+    createMapWindow();
+    console.log(msg);
+    mapWindow.webContents.on('did-finish-load', function () {
+
+        mapWindow.webContents.send('sendCoords', arrayOfStrings);
+        console.log("sent")
+    });
+
+
+
+})
+
+
+
+ipcMain.on('openNotification', function (e, msg) {
+
+
     tray.displayBalloon({
         title: "New earthquake!",
         content: msg,
-        icon : iconpath
+        icon: iconpath
     })
 
-  });
+});
 
-  

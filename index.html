@@ -9,30 +9,20 @@
     <title>Earthquake app</title>
   </head>
   <body>
-    <h1>Latest major eathquakes</h1>
-    <div >
-      <table id="EQList" class="table table-striped">
-          
-        <tr>
-          <td scope="col">
-              Magnitude
-          </td>
-          <td scope="col">
-            Location
-          </td>
-          <td scope="col">
-            Time
-          </td>
-
-        </tr>
-      </thead>
-      </table>
-      <div id="lastUpdate"></div>
+    <h1>Latest eathquakes</h1>
+    <div id="tableInsert">
     </div>
+
+    <div id="lastUpdate"></div>
+    
 
     <script>
 
-      
+ipcRenderer.on('sendCoords', function (e, item) {
+            console.log(item)
+            console.log("got em");
+          
+        });
       </script>
   </body>
 </html>
