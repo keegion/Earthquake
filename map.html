@@ -6,7 +6,7 @@
     <title>Map view</title>
     <style>
         #map {
-            height: 90%;
+            height: 100%;
         }
 
         html,
@@ -22,7 +22,7 @@
 
     <div id="map"></div>
 
-    <div align="ceter"><button type=submit onclick="closeWindow()">Close window</button></div>
+  
 
     <script>
 
@@ -32,9 +32,6 @@
 
         var coords;
 
-        function closeWindow() {
-            ipcRenderer.send('closeMap');
-        }
 
         ipcRenderer.on('sendCoords', function (e, item) {
             coords = { "lat": parseFloat(item[1]), "lng": parseFloat(item[0]) };
@@ -47,7 +44,7 @@
 
 
     <script
-        src="https://maps.googleapis.com/maps/api/js?key="></script>
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhWcULlGRVXh1zULApaWCc7fMBFbYyaTY"></script>
     <script>
 
         function load(){

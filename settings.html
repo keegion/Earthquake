@@ -3,55 +3,67 @@
 
 <head>
     <meta charset="UTF-8">
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <title>Settings</title>
 </head>
 
 <body>
     <form>
-        <div> Earthquake type:
-            <select name="type">
-                <option value="All">All</option>
-                <option value="Significant">Significant</option>
-                <option value="4.5">4.5+</option>
-                <option value="2.5">2.5+</option>
-                <option value="1">1+</option>
-            </select></div>
-        <div> Time range:
-            <select name="range">
-                <option value="hour">Past Hour</option>
-                <option value="day">Past Day</option>
-                <option value="7days">Past 7 days</option>
-                <option value="30days">Past 30 days</option>
-            </select>
-        </div>
-        <div>Start on launch
-            <input type="checkbox" name="startOnLaunch" value="start">
-        </div>
-        <div>
-            update frequency
-            <select name="frequency">
-                    <option value="5min">5 min</option>
-                    <option value="15min">15 min</option>
-                    <option value="30min">30 min</option>
-                    <option value="1h">1 h</option>
-                    <option value="3h">3 h</option>
-                    <option value="6h">6 h</option>
-                    <option value="12h">12 h</option>
-                    <option value="24h">24 h</option>
+        <div class="align-items-center ">
+            <div class="col-auto form-group">
+                <label>Earthquake type</label>
+                <select name="type" class="custom-select" id="type" >
+                    <option value="All">All</option>
+                    <option value="Significant">Significant</option>
+                    <option value="4.5">4.5+</option>
+                    <option value="2.5">2.5+</option>
+                    <option value="1">1+</option>
                 </select>
+            </div>
+            <div class="col-auto form-group"> 
+                <label>Time range</label>
+                <select name="range" id="range" class="custom-select">
+                    <option value="hour">Past Hour</option>
+                    <option value="day">Past Day</option>
+                    <option value="7days">Past 7 days</option>
+                    <option value="30days">Past 30 days</option>
+                </select>
+            </div>
+            <div class="col-auto form-group">
+                <label>Update frequency</label>
+                <select name="frequency" id="frequency" class="custom-select ">
+                    <option value="300000">5 min</option>
+                    <option value="900000">15 min</option>
+                    <option value="1800000">30 min</option>
+                    <option value="3600000">1 h</option>
+                    <option value="10800000">3 h</option>
+                    <option value="21600000">6 h</option>
+                    <option value="43200000">12 h</option>
+                    <option value="86400000">24 h</option>
+                </select>
+
+            </div>
+            <div align="center" ><button type=submit class="btn btn-primary" onclick="closeWindow()">Save</button></div>
         </div>
-        <button type=submit >Save</button>
+        </div>
     </form>
 
 
     <script>
         const electron = require('electron');
         const { ipcRenderer } = electron;
-        function test() {
-            ipcRenderer.send('settingsSave', "settings closed");
+        function closeWindow() {
+            var type = document.getElementById("type").value;
+            var range = document.getElementById("range").value;
+            var frequency = document.getElementById("frequency").value;
+
+
+            ipcRenderer.send('settingsSave', type, range, frequency);
 
         }
+
+
     </script>
 </body>
 
