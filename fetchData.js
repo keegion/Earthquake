@@ -12,14 +12,14 @@ var interval;
 //Fetch data and return json
 async function getData(url) {
     const response = await fetch(url);
-
+    $(loadMsg).append('Loading...<img src="loading.gif">');
     return response.json()
 }
 //call for fetch and print data
 async function main() {
 
-
     const data = await getData(url);
+    
     console.log("printing data")
     //print table behinning
     const tableBeginning = "<table class='table table-striped table-hover' id='EQList'><tr><td scope='col'>Magnitude</td><td scope='col'>Location</td><td scope='col'>Time </td></tr>"
@@ -53,6 +53,7 @@ async function main() {
     const tableEnd = "</table>";
     $(EQList).append(tableEnd);
     first = false;
+    $(loadMsg).empty();
     //print last updated at the end of the table
     $(lastUpdate).html("Last update: " + new Date());
 }
@@ -72,8 +73,12 @@ function checkIfIdExists(id, mag, loc, time) {
 
 
 }
+
+
+
 loadDatafromStorage();
 main()
+
 
 function clearData() {
     $(tableInsert).empty();
